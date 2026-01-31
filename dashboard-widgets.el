@@ -1502,11 +1502,19 @@ each agenda entry."
 
 (defcustom dashboard-agenda-tags-format 'identity
   "Function to format the org agenda tags.
-Any custom function would receives the tags from `org-get-tags'"
+Any custom function would receives the local tags from `org-get-tags'"
   :type '(choice
           (const :tag "Show tags" identity)
           (const :tag "Hide tags" ignore)
           (function :tag "Custom function"))
+  :group 'dashboard)
+
+(defcustom dashboard-agenda-tags-scope 'local
+  "Scope when getting agenda tags for headline using `org-get-tags'."
+  :type '(choice
+          (const :tag "No tags" nil)
+          (const :tag "Local tags (default)" local)
+          (const :tag "Inherited tags" inherited))
   :group 'dashboard)
 
 (defun dashboard-agenda-entry-format ()
@@ -1564,9 +1572,14 @@ If not height is found on FACE or `dashboard-items-face' use `default'."
     (format-time-string dashboard-agenda-time-string-format time)))
 
 (defun dashboard-agenda--formatted-tags ()
-  "Apply `dashboard-agenda-tags-format' to org-element tags."
+  "Apply `dashboard-agenda-tags-format' to the list of local `org-get-tags'."
   (when dashboard-agenda-tags-format
-    (funcall dashboard-agenda-tags-format (org-get-tags))))
+    (let ((tags (pcase dashboard-agenda-tags-scope
+                  ((pred null) nil)
+                  ('local (org-get-tags (point) t))
+                  ('inherited (org-get-tags))
+                  (_ (user-error "Wrong value for `dashboard-agenda-tags-scope'")))))
+      (funcall dashboard-agenda-tags-format tags))))
 
 (defun dashboard-due-date-for-agenda ()
   "Return due-date for agenda period."
