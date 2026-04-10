@@ -14,7 +14,7 @@
 ;; Created: October 05, 2016
 ;; Package-Version: 1.9.0-SNAPSHOT
 ;; Keywords: startup, screen, tools, dashboard
-;; Package-Requires: ((emacs "27.1"))
+;; Package-Requires: ((emacs "27.2"))
 
 ;;; Commentary:
 
@@ -34,10 +34,11 @@
 (declare-function bookmark-delete "ext:bookmark.el")
 (declare-function dashboard-ls--dirs "ext:dashboard-ls.el")
 (declare-function dashboard-ls--files "ext:dashboard-ls.el")
+(declare-function linum-mode "ext:linum.el")
 (declare-function page-break-lines-mode "ext:page-break-lines.el")
 (declare-function projectile-remove-known-project "ext:projectile.el")
 (declare-function project-forget-projects-under "ext:project.el")
-(declare-function linum-mode "ext:linum.el")
+(declare-function recentf-save-list "ext:recentf.el")
 (declare-function widget-at "ext:wid-edit.el")
 (declare-function widget-button-press "ext:wid-edit.el")
 (declare-function widget-button-click "ext:wid-edit.el")
